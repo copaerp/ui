@@ -9,9 +9,15 @@ export default function Column({ title, color, orders }) {
             <div
                 className={`flex-1 rounded-b-2xl p-3 flex flex-col gap-3 ${color}`}
             >
-                {orders.map((order, i) => (
-                    <Card order={order} key={i} />
-                ))}
+                {orders.length > 0 ? (
+                    orders.map((order, i) => <Card order={order} key={i} />)
+                ) : (
+                    <div>
+                        <p className="text-center text-gray-900 italic my-6">
+                            Nenhum pedido nesta coluna ainda
+                        </p>
+                    </div>
+                )}
             </div>
         </div>
     );

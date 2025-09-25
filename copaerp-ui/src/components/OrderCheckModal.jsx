@@ -1,3 +1,4 @@
+import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { useEffect } from "react";
 import ReactModal from "react-modal";
 
@@ -97,9 +98,18 @@ export default function OrderCheckModal({ open, setOpen, order }) {
                                     <p className="font-semibold mb-1">
                                         Telefone/Celular:
                                     </p>
-                                    <p className="whitespace-pre-line">
-                                        {order.customer.phone}
-                                    </p>
+                                    <a
+                                        href={`https://web.whatsapp.com/send?phone=${order.customer.phone}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="whitespace-pre-line text-blue-600 border-b border-dotted border-blue-600 hover:border-blue-800 hover:text-blue-800"
+                                    >
+                                        {parsePhoneNumberFromString(
+                                            order.customer.phone,
+                                            "BR"
+                                        )?.formatInternational() ||
+                                            order.customer.phone}
+                                    </a>
                                 </div>
                                 <div>
                                     <p className="font-semibold mb-1">
