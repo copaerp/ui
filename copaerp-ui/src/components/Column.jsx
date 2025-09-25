@@ -1,4 +1,4 @@
-import Card from "./Card";
+import Card from "@/components/Card";
 
 export default function Column({ title, color, orders }) {
     return (
@@ -6,7 +6,9 @@ export default function Column({ title, color, orders }) {
             <div className="bg-black text-white rounded-t-2xl px-3 py-2 font-bold text-center">
                 {title}
             </div>
-            <div className={`flex-1 rounded-b-2xl p-3 flex flex-col gap-3 ${color}`}>
+            <div
+                className={`flex-1 rounded-b-2xl p-3 flex flex-col gap-3 ${color}`}
+            >
                 {orders.map((order, i) => (
                     <Card order={order} key={i} />
                 ))}
