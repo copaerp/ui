@@ -11,7 +11,7 @@ export default function Card({ order }) {
             segments.length = 2;
         }
         const base = `/${segments.join("/")}`;
-        const target = `${base}/${order.id}`;
+        const target = `${base}/${order.display_id}`;
         if (target !== pathname) {
             navigate(target, { replace: false });
         }
@@ -38,7 +38,7 @@ export default function Card({ order }) {
                 </div>
                 <div className="flex flex-col justify-between items-end">
                     <span className="bg-black rounded-tr-lg rounded-bl-lg px-2 py-1 text-sm font-bold text-white">
-                        #{order.id}
+                        #{order.display_id}
                     </span>
                     <span className="text-sm text-gray-800 p-3">
                         {order.finished_at &&

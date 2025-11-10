@@ -159,7 +159,7 @@ export default {
             time: "17:47",
         },
     ],
-    ready: [
+    done: [
         {
             id: 1783,
             name: "Joaquim Gimenes",

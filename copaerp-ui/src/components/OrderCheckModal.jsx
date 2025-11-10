@@ -44,7 +44,7 @@ export default function OrderCheckModal({ open, setOpen, order }) {
             <div className="relative bg-white rounded-2xl shadow-lg w-[860px] max-w-[94vw] p-10 flex flex-col gap-6 text-sm leading-relaxed">
                 {/* Badge ID */}
                 <span className="absolute top-0 right-0 bg-black text-white font-bold text-sm px-4 py-2 rounded-bl-xl rounded-tr-2xl">
-                    #{order.id}
+                    #{order.display_id}
                 </span>
                 {/* Título */}
                 <h2 className="text-xl font-bold">
