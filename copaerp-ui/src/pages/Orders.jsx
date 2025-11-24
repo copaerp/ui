@@ -3,6 +3,7 @@ import Column from "@/components/Column.jsx";
 import KanbanTypeSlider from "@/components/KanbanTypeSlider.jsx";
 import OrderCheckModal from "@/components/OrderCheckModal.jsx";
 import CreateOrderModal from "@/components/CreateOrderModal.jsx";
+import AlertsModal from "@/components/AlertsModal.jsx";
 import api from "@/utils/axios";
 import {
     WHATSAPP_CHANNEL_ID,
@@ -24,6 +25,8 @@ export default function DeliveryOrdersPage({ type }) {
         done: [],
     });
     const [createOrderOpen, setCreateOrderOpen] = useState(false);
+    const [alertsOpen, setAlertsOpen] = useState(false);
+    const [alerts, setAlerts] = useState([]);
     const navigate = useNavigate();
     const { orderId } = useParams();
 
@@ -83,6 +86,21 @@ export default function DeliveryOrdersPage({ type }) {
         const interval = setInterval(fetchOrders, 5000);
         return () => clearInterval(interval);
     }, [type]);
+
+    const fetchAlerts = async () => {
+        try {
+            const { data } = await api.get(`/alerts/${UNIT_ID}`);
+            setAlerts(data || []);
+        } catch (err) {
+            console.error("Erro ao carregar alertas:", err);
+            setAlerts([]);
+        }
+    };
+
+    const handleAlertsClick = async () => {
+        await fetchAlerts();
+        setAlertsOpen(true);
+    };
 
     const handleOrderCreated = () => {
         // Recarregar pedidos quando um novo for criado
@@ -151,7 +169,10 @@ export default function DeliveryOrdersPage({ type }) {
                     />
                 </div>
                 <div className="flex gap-3">
-                    <button className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow hover:shadow-md transition">
+                    <button
+                        onClick={handleAlertsClick}
+                        className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow hover:shadow-md transition relative"
+                    >
                         <Bell className="w-5 h-5" /> ALERTAS
                     </button>
                     <button
@@ -189,6 +210,11 @@ export default function DeliveryOrdersPage({ type }) {
                 open={createOrderOpen}
                 setOpen={setCreateOrderOpen}
                 onOrderCreated={handleOrderCreated}
+            />
+            <AlertsModal
+                open={alertsOpen}
+                setOpen={setAlertsOpen}
+                alerts={alerts}
             />
         </div>
     );

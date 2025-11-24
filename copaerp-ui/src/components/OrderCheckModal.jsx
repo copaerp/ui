@@ -106,7 +106,7 @@ export default function OrderCheckModal({
                                 Itens do Pedido
                             </h3>
                             <ul className="space-y-3 text-[13px]">
-                                {order.current_cart.map((item, i) => (
+                                {order.current_cart?.map((item, i) => (
                                     <li key={i} className="leading-snug">
                                         <span className="font-semibold">
                                             {item.amount}x{" "}
@@ -172,12 +172,14 @@ export default function OrderCheckModal({
                                                 {order.address}
                                             </p>
                                         </div>
-                                        <div>
-                                            <p className="font-semibold mb-1">
-                                                Forma de Pagamento:
-                                            </p>
-                                            <p>{order.payment_method}</p>
-                                        </div>
+                                        {order.payment_method && (
+                                            <div>
+                                                <p className="font-semibold mb-1">
+                                                    Forma de Pagamento:
+                                                </p>
+                                                <p>{order.payment_method}</p>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>

@@ -29,7 +29,7 @@ export default function Card({ order }) {
                         {order.customer?.full_name || `Mesa ${order.table_number}`}
                     </span>
                     <ul className="text-sm text-gray-700 max-h-18 overflow-hidden">
-                        {order.current_cart.map((item, i) => (
+                        {order.current_cart?.map((item, i) => (
                             <li key={i}>
                                 <div>{item.amount}x {item.name}</div>
                                 {item.notes && (
