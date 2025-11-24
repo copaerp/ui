@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      BUCKET_NAME: copaerp-orders-ui-bucket
+      BUCKET_NAME: copaerp-orders-ui-bucket-v2
 
     steps:
       - name: Checkout code
