@@ -4,7 +4,7 @@ import {
     ORDER_POST_CHECKOUT_STATUS_CONFIRMED,
     ORDER_POST_CHECKOUT_STATUS_PREPARING,
     ORDER_POST_CHECKOUT_STATUS_DONE,
-    BUSINESS_ID,
+    UNIT_ID,
 } from "@/utils/constants";
 import { Check, X, ChevronUp, ChevronDown } from "lucide-react";
 
@@ -22,10 +22,10 @@ export default function KitchenOrdersPage() {
                 ...order,
                 post_checkout_status: newStatus,
             };
-            
+
             // Enviar o objeto completo via POST
-            await api.post(`/orders/${BUSINESS_ID}`, updatedOrder);
-            
+            await api.post(`/orders/${UNIT_ID}`, updatedOrder);
+
             // Recarregar pedidos após atualização
             fetchOrders();
         } catch (err) {
@@ -35,7 +35,7 @@ export default function KitchenOrdersPage() {
 
     const fetchOrders = async () => {
         try {
-            const { data } = await api.get(`/orders/${BUSINESS_ID}`);
+            const { data } = await api.get(`/orders/${UNIT_ID}`);
 
             // Separar pedidos por status
             const confirmedOrders =

@@ -10,7 +10,8 @@ import {
     ORDER_POST_CHECKOUT_STATUS_CONFIRMED,
     ORDER_POST_CHECKOUT_STATUS_PREPARING,
     ORDER_POST_CHECKOUT_STATUS_DONE,
-    BUSINESS_ID,
+    IFOOD_CHANNEL_ID,
+    UNIT_ID,
 } from "@/utils/constants";
 import { Bell, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -36,13 +37,16 @@ export default function DeliveryOrdersPage({ type }) {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const { data } = await api.get(`/orders/${BUSINESS_ID}`);
+                const { data } = await api.get(`/orders/${UNIT_ID}`);
                 console.log(data);
 
                 const filteredOrders =
                     data?.filter((order) => {
                         if (type === "delivery") {
-                            return order.channel_id === WHATSAPP_CHANNEL_ID;
+                            return [
+                                WHATSAPP_CHANNEL_ID,
+                                IFOOD_CHANNEL_ID,
+                            ].includes(order.channel_id);
                         } else if (type === "dine-in") {
                             return order.channel_id === SITE_CHANNEL_ID;
                         }
@@ -84,7 +88,7 @@ export default function DeliveryOrdersPage({ type }) {
         // Recarregar pedidos quando um novo for criado
         const fetchOrders = async () => {
             try {
-                const { data } = await api.get(`/orders/${BUSINESS_ID}`);
+                const { data } = await api.get(`/orders/${UNIT_ID}`);
                 console.log(data);
 
                 const filteredOrders =
