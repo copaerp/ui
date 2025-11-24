@@ -40,8 +40,7 @@ export default function OrderCheckModal({
             const now = new Date().toISOString();
             const orderData = {
                 ...order,
-                cancelled_at: now,
-                finished_at: now,
+                canceled_at: now,
             };
 
             await api.post(`/orders/${UNIT_ID}`, orderData);
