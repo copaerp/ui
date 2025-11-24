@@ -110,7 +110,7 @@ export default function CreateOrderModal({ open, setOpen, onOrderCreated }) {
                 total_price: getTotalPrice(),
                 finished_at: new Date().toISOString(),
                 post_checkout_status: "confirmed",
-                table_number: parseInt(selectedTable),
+                table_number: selectedTable,
                 unit_id: UNIT_ID,
             };
 
@@ -189,7 +189,7 @@ export default function CreateOrderModal({ open, setOpen, onOrderCreated }) {
                                 className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                             >
                                 <option value="">Selecione a mesa</option>
-                                {[...Array(20)].map((_, i) => (
+                                {[...Array(8)].map((_, i) => (
                                     <option key={i + 1} value={i + 1}>
                                         Mesa {i + 1}
                                     </option>

@@ -38,8 +38,6 @@ export default function DeliveryOrdersPage({ type }) {
         const fetchOrders = async () => {
             try {
                 const { data } = await api.get(`/orders/${UNIT_ID}`);
-                console.log(data);
-
                 const filteredOrders =
                     data?.filter((order) => {
                         if (type === "delivery") {
@@ -82,6 +80,8 @@ export default function DeliveryOrdersPage({ type }) {
         };
 
         fetchOrders();
+        const interval = setInterval(fetchOrders, 5000);
+        return () => clearInterval(interval);
     }, [type]);
 
     const handleOrderCreated = () => {
@@ -183,6 +183,7 @@ export default function DeliveryOrdersPage({ type }) {
                 open={open}
                 setOpen={setOpen}
                 order={currentOrder}
+                onOrderUpdated={handleOrderCreated}
             />
             <CreateOrderModal
                 open={createOrderOpen}

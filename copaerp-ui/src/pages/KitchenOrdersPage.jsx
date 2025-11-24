@@ -210,16 +210,20 @@ function OrderCard({ order, onUpdateOrderStatus }) {
                     </h4>
                     <div className="bg-gray-50 rounded-lg p-3 space-y-1">
                         {order.current_cart?.map((item, idx) => (
-                            <div
-                                key={idx}
-                                className="text-sm text-gray-800 flex justify-between items-center"
-                            >
-                                <span className="font-medium">{item.name}</span>
-                                <div className="text-xs text-gray-600">
-                                    <span className="bg-blue-100 px-2 py-1 rounded font-semibold">
-                                        {item.amount}x
-                                    </span>
+                            <div key={idx} className="space-y-1">
+                                <div className="text-sm text-gray-800 flex justify-between items-center">
+                                    <span className="font-medium">{item.name}</span>
+                                    <div className="text-xs text-gray-600">
+                                        <span className="bg-blue-100 px-2 py-1 rounded font-semibold">
+                                            {item.amount}x
+                                        </span>
+                                    </div>
                                 </div>
+                                {item.notes && (
+                                    <div className="text-xs text-gray-600 italic ml-2">
+                                        {item.notes}
+                                    </div>
+                                )}
                             </div>
                         )) || (
                             <div className="text-sm text-gray-500 italic">
