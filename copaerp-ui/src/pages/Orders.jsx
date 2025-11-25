@@ -41,8 +41,14 @@ export default function DeliveryOrdersPage({ type }) {
         const fetchOrders = async () => {
             try {
                 const { data } = await api.get(`/orders/${UNIT_ID}`);
+
+                // Ordenar por data (mais antigo primeiro)
+                const sortedData = data?.sort((a, b) => {
+                    return new Date(a.finished_at) - new Date(b.finished_at);
+                });
+
                 const filteredOrders =
-                    data?.filter((order) => {
+                    sortedData?.filter((order) => {
                         if (type === "delivery") {
                             return [
                                 WHATSAPP_CHANNEL_ID,
@@ -102,50 +108,59 @@ export default function DeliveryOrdersPage({ type }) {
         setAlertsOpen(true);
     };
 
-    const handleOrderCreated = () => {
+    const handleOrderCreated = async () => {
+        if (type !== "dine-in") {
+            window.location.href = "/orders/dine-in";
+            return;
+        }
+
         // Recarregar pedidos quando um novo for criado
-        const fetchOrders = async () => {
-            try {
-                const { data } = await api.get(`/orders/${UNIT_ID}`);
-                console.log(data);
+        try {
+            const { data } = await api.get(`/orders/${UNIT_ID}`);
+            console.log(data);
 
-                const filteredOrders =
-                    data?.filter((order) => {
-                        if (type === "delivery") {
-                            return order.channel_id === WHATSAPP_CHANNEL_ID;
-                        } else if (type === "dine-in") {
-                            return order.channel_id === SITE_CHANNEL_ID;
-                        }
-                        return false;
-                    }) || [];
+            // Ordenar por data (mais antigo primeiro)
+            const sortedData = data?.sort((a, b) => {
+                return new Date(a.finished_at) - new Date(b.finished_at);
+            });
 
-                const confirmedOrders = filteredOrders.filter(
-                    (order) =>
-                        order.post_checkout_status ===
-                            ORDER_POST_CHECKOUT_STATUS_CONFIRMED ||
-                        !order.post_checkout_status
-                );
-                const preparingOrders = filteredOrders.filter(
-                    (order) =>
-                        order.post_checkout_status ===
-                        ORDER_POST_CHECKOUT_STATUS_PREPARING
-                );
-                const doneOrders = filteredOrders.filter(
-                    (order) =>
-                        order.post_checkout_status ===
-                        ORDER_POST_CHECKOUT_STATUS_DONE
-                );
+            const filteredOrders =
+                sortedData?.filter((order) => {
+                    if (type === "delivery") {
+                        return [WHATSAPP_CHANNEL_ID, IFOOD_CHANNEL_ID].includes(
+                            order.channel_id
+                        );
+                    } else if (type === "dine-in") {
+                        return order.channel_id === SITE_CHANNEL_ID;
+                    }
+                    return false;
+                }) || [];
 
-                setOrders({
-                    confirmed: confirmedOrders,
-                    preparing: preparingOrders,
-                    done: doneOrders,
-                });
-            } catch (err) {
-                console.error("Erro ao carregar pedidos:", err);
-            }
-        };
-        fetchOrders();
+            const confirmedOrders = filteredOrders.filter(
+                (order) =>
+                    order.post_checkout_status ===
+                        ORDER_POST_CHECKOUT_STATUS_CONFIRMED ||
+                    !order.post_checkout_status
+            );
+            const preparingOrders = filteredOrders.filter(
+                (order) =>
+                    order.post_checkout_status ===
+                    ORDER_POST_CHECKOUT_STATUS_PREPARING
+            );
+            const doneOrders = filteredOrders.filter(
+                (order) =>
+                    order.post_checkout_status ===
+                    ORDER_POST_CHECKOUT_STATUS_DONE
+            );
+
+            setOrders({
+                confirmed: confirmedOrders,
+                preparing: preparingOrders,
+                done: doneOrders,
+            });
+        } catch (err) {
+            console.error("Erro ao carregar pedidos:", err);
+        }
     };
 
     const allOrders = [

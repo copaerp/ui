@@ -116,15 +116,15 @@ export default function CreateOrderModal({ open, setOpen, onOrderCreated }) {
 
             await api.post(`/orders/${UNIT_ID}`, orderData);
 
+            // Callback para atualizar a lista de pedidos
+            if (onOrderCreated) {
+                await onOrderCreated();
+            }
+
             // Limpar carrinho, mesa e fechar modal
             setCart([]);
             setSelectedTable("");
             setOpen(false);
-
-            // Callback para atualizar a lista de pedidos
-            if (onOrderCreated) {
-                onOrderCreated();
-            }
         } catch (err) {
             console.error("Erro ao criar pedido:", err);
             alert("Erro ao criar pedido. Tente novamente.");
